@@ -1,13 +1,14 @@
 module App.HomepageView (homepage) where
 
-import Debug
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import TinyColor
+import Colors.App.Model exposing (Model)
+import Colors.App.Update exposing (Action)
 
 
-homepage : Html
-homepage =
+homepage : Signal.Address Action -> Model -> Html
+homepage address model =
   let
     base =
       TinyColor.fromString "4D69A6"
