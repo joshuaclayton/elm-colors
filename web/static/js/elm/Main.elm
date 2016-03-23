@@ -35,3 +35,8 @@ port tasks =
 port routeRunTask : Task.Task () ()
 port routeRunTask =
   router.run
+
+
+port broadcastRouteChange : Signal Bool
+port broadcastRouteChange =
+  (Signal.map .navigating app.model) |> Signal.dropRepeats
