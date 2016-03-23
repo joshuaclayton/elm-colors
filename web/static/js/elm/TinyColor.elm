@@ -4,8 +4,7 @@ import Native.TinyColor
 
 
 type TinyColor
-  = RGB { r : Int, g : Int, b : Int }
-  | HSL { h : Int, s : Int, l : Int }
+  = TinyColor
 
 
 fromString : String -> TinyColor
@@ -81,3 +80,8 @@ monochromatic =
 toHexString : TinyColor -> String
 toHexString =
   Native.TinyColor.toHexString
+
+
+toHex : TinyColor -> String
+toHex =
+  Native.TinyColor.toHex

@@ -47,6 +47,10 @@ Elm.Native.TinyColor.make = function(localRuntime) {
     return c.toHexString();
   }
 
+  function toHex(c) {
+    return c.toHex();
+  }
+
   function complement(color) {
     return clone(color).complement();
   }
@@ -91,6 +95,7 @@ Elm.Native.TinyColor.make = function(localRuntime) {
     greyscale: greyscale,
 
     toHexString: toHexString,
+    toHex: toHex,
 
     complement: complement,
     triad: triad,
