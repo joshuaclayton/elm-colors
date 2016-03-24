@@ -7,6 +7,16 @@ type TinyColor
   = TinyColor
 
 
+normalizeHex : String -> String
+normalizeHex =
+  (fromString >> toHex)
+
+
+normalizeHexString : String -> String
+normalizeHexString =
+  (fromString >> toHexString)
+
+
 fromString : String -> TinyColor
 fromString =
   Native.TinyColor.fromString
