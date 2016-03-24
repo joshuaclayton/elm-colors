@@ -58,9 +58,9 @@ renderColor address color =
       color |> TinyColor.toHex
   in
     a
-      [ style [ ( "background", TinyColor.toHexString color ), ( "color", "#fff" ) ]
+      [ style [ ( "background", TinyColor.toHexString color ) ]
       , href <| "#" ++ colorPath hex
-      , class "color-swatch"
+      , classList [ ( "color-swatch", True ), ( "light-color", TinyColor.isLightW3C color ) ]
       ]
       [ span [] [ text hex ] ]
 

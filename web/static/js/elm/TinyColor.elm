@@ -22,6 +22,11 @@ fromString =
   Native.TinyColor.fromString
 
 
+isLightW3C : TinyColor -> Bool
+isLightW3C =
+  Native.TinyColor.isLightW3C
+
+
 darken : Int -> TinyColor -> TinyColor
 darken =
   Native.TinyColor.darken

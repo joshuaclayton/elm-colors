@@ -15,6 +15,13 @@ Elm.Native.TinyColor.make = function(localRuntime) {
     return tinycolor(color.toHexString());
   }
 
+  function isLightW3C(color) {
+    var ratio = ((color._r * 299 + color._g * 587 + color._b * 117) / 1000) / 255;
+    var threshold = 0.7;
+
+    return ratio > threshold;
+  }
+
   function darken(percent, color) {
     return clone(color).darken(percent);
   }
@@ -98,6 +105,7 @@ Elm.Native.TinyColor.make = function(localRuntime) {
 
     toHexString: toHexString,
     toHex: toHex,
+    isLightW3C: isLightW3C,
 
     complement: complement,
     triad: triad,

@@ -46,6 +46,11 @@ a.color-swatch {
   text-align: center;
   width: 6em;
   padding: 1em 0;
+  color: #fff;
+
+  &.light-color {
+    color: #000;
+  }
 
   span {
     position: relative;
