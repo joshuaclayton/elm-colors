@@ -1,0 +1,23 @@
+.container {
+  @include outer-container;
+}
+
+
+.color-search {
+  @include row();
+
+  input[type="text"] {
+    @include shift(2);
+    @include span-columns(5);
+  }
+
+  input[type="color"] {
+    @include span-columns(1);
+  }
+
+  input[type="submit"] {
+    @include span-columns(2);
+
+    @include omega();
+  }
+}

@@ -1,15 +1,12 @@
 @import "../vendor/normalize";
+@import "bourbon/bourbon";
+@import "neat/neat";
 @import "variables";
+@import "grid";
 
 body {
   color: $dark-gray;
   font-family: "Helvetica Neue", Helvetica, sans-serif;
-
-  .container {
-    margin: 0 auto;
-    width: 60%;
-    min-width: 15em;
-  }
 
 }
 
@@ -25,6 +22,22 @@ body {
 header.page-header {
   border-bottom: 1px solid #ccc;
   margin-bottom: 2em;
+}
+
+.color-search {
+  font-size: 1.5em;
+
+  input[type="text"] {
+    padding: .25em;
+  }
+
+  input[type="color"] {
+    height: 1.9em;
+  }
+
+  input[type="submit"] {
+    padding: .325em;
+  }
 }
 
 a.color-swatch {
