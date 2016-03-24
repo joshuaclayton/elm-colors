@@ -44,4 +44,13 @@ siteFooter : Html
 siteFooter =
   footer
     []
-    [ p [] [ text "Created by ", a [ href "http://joshuaclayton.me" ] [ text "Josh Clayton" ] ] ]
+    [ p
+        []
+        [ text "Created by "
+        , a [ href "http://joshuaclayton.me" ] [ text "Josh Clayton" ]
+        , text ". "
+        , text "View the source on "
+        , a [ href "https://github.com/joshuaclayton/elm-colors" ] [ text "GitHub" ]
+        , text "."
+        ]
+    ]
