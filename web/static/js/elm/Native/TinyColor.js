@@ -56,9 +56,11 @@ Elm.Native.TinyColor.make = function(localRuntime) {
   }
 
   function jsArrayToList(array) {
-    let list = List.Nil;
+    var list = List.Nil;
 
-    array.forEach(i => list = List.Cons(i, list));
+    array.forEach(function(i) {
+      list = List.Cons(i, list);
+    });
 
     return list;
   }
