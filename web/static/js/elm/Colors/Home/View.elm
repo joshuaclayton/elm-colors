@@ -33,12 +33,12 @@ selectedValue model =
 
 
 setColorName : String -> Action
-setColorName value =
+setColorName colorName =
   let
     stripHash =
       replace All (regex "#") (\_ -> "")
   in
-    SetSearchColor <| (trim >> stripHash) value
+    SetSearchColor <| (trim >> stripHash >> TinyColor.normalizeHex) colorName
 
 
 hexCodeValidationRegex : String
