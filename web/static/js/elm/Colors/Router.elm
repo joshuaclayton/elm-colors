@@ -4,6 +4,8 @@ import Effects exposing (Effects)
 import Hop
 import Hop.Matchers exposing (match1, match2, str)
 import Hop.Types exposing (Router, PathMatcher, Location)
+import Html exposing (Html, Attribute, a)
+import Html.Attributes exposing (href)
 
 
 type Route
@@ -25,6 +27,11 @@ router =
     { matchers = matchers
     , notFound = NotFoundRoute
     }
+
+
+linkTo : String -> List Attribute -> List Html -> Html
+linkTo path attrs inner =
+  a ((href <| "#" ++ path) :: attrs) inner
 
 
 colorPath : String -> String

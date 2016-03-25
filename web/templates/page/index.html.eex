@@ -1,6 +1,8 @@
 <script type="text/javascript">
   document.addEventListener("DOMContentLoaded", function(event) {
-    var elm = Elm.fullscreen(Elm.App);
+    var elm = Elm.fullscreen(Elm.App, { setRandomColorSeed: 0 });
+
+    elm.ports.setRandomColorSeed.send((new Date()).getTime());
 
     elm.ports.broadcastRouteChange.subscribe(function(isNavigating) {
       if (isNavigating) {

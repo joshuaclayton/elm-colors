@@ -1,11 +1,11 @@
-module Colors.Color.View (view) where
+module Colors.Color.View (view, renderColors) where
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick)
 import TinyColor exposing (..)
 import Colors.App.Update exposing (Action, Action(NavigateTo))
-import Colors.Router exposing (colorPath)
+import Colors.Router exposing (linkTo, colorPath)
 
 
 view : Signal.Address Action -> String -> Html
@@ -15,11 +15,11 @@ view address color =
       TinyColor.fromString color
 
     renderColorSection =
-      renderColorSectionList address base
+      renderColorSectionList base
   in
     section
       [ class "welcome" ]
-      [ section [ class "hero" ] [ renderColor address base ]
+      [ section [ class "hero" ] [ renderColor base ]
       , renderColorSection "Triad" TinyColor.triad
       , renderColorSection "Tetrad" TinyColor.tetrad
       , renderColorSection "Analogous" TinyColor.analogous
@@ -35,31 +35,33 @@ view address color =
       ]
 
 
-renderColorSectionList : Signal.Address Action -> TinyColor -> String -> (TinyColor -> List TinyColor) -> Html
-renderColorSectionList address color header fn =
+renderColorSectionList : TinyColor -> String -> (TinyColor -> List TinyColor) -> Html
+renderColorSectionList color header fn =
+  renderColors header <| fn color
+
+
+renderColors : String -> List TinyColor -> Html
+renderColors header colors =
   let
     header' =
       h3 [] [ text header ]
-
-    colors =
-      List.map (renderColor address) (fn color)
   in
     section
       [ class "color-container" ]
       [ header'
-      , section [ class "color-list" ] colors
+      , section [ class "color-list" ] <| List.map renderColor colors
       ]
 
 
-renderColor : Signal.Address Action -> TinyColor -> Html
-renderColor address color =
+renderColor : TinyColor -> Html
+renderColor color =
   let
     hex =
       color |> TinyColor.toHex
   in
-    a
+    linkTo
+      (colorPath hex)
       [ style [ ( "background", TinyColor.toHexString color ) ]
-      , href <| "#" ++ colorPath hex
       , classList [ ( "color-swatch", True ), ( "light-color", TinyColor.isLightW3C color ) ]
       ]
       [ span [] [ text hex ] ]

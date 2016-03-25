@@ -22,6 +22,10 @@ Elm.Native.TinyColor.make = function(localRuntime) {
     return ratio > threshold;
   }
 
+  function fromRGB(object) {
+    return tinycolor(object);
+  }
+
   function darken(percent, color) {
     return clone(color).darken(percent);
   }
@@ -94,6 +98,7 @@ Elm.Native.TinyColor.make = function(localRuntime) {
 
   return localRuntime.Native.TinyColor.values = {
     fromString: tinycolor,
+    fromRGB: fromRGB,
 
     darken: F2(darken),
     lighten: F2(lighten),

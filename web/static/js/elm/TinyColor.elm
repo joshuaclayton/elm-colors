@@ -1,10 +1,36 @@
 module TinyColor (..) where
 
 import Native.TinyColor
+import Random
 
 
 type TinyColor
   = TinyColor
+
+
+random : Random.Seed -> ( TinyColor, Random.Seed )
+random seed =
+  Random.generate randomTinyColor seed
+
+
+randomList : Int -> Random.Seed -> ( List TinyColor, Random.Seed )
+randomList count seed =
+  Random.generate (Random.list count randomTinyColor) seed
+
+
+randomTinyColor : Random.Generator TinyColor
+randomTinyColor =
+  let
+    colorRange =
+      Random.int 0 255
+
+    randomRGB =
+      Random.map3 (,,) colorRange colorRange colorRange
+
+    randomTinyColor ( r, g, b ) =
+      fromRGB { r = r, g = g, b = b }
+  in
+    Random.map randomTinyColor randomRGB
 
 
 normalizeHex : String -> String
@@ -20,6 +46,11 @@ normalizeHexString =
 fromString : String -> TinyColor
 fromString =
   Native.TinyColor.fromString
+
+
+fromRGB : { a | r : Int, g : Int, b : Int } -> TinyColor
+fromRGB =
+  Native.TinyColor.fromRGB
 
 
 isLightW3C : TinyColor -> Bool

@@ -3,15 +3,17 @@ module App (..) where
 import StartApp
 import Task
 import Effects exposing (Effects, Never)
+import Random
 import Colors.App.Model exposing (..)
-import Colors.App.Update exposing (..)
+import Colors.App.Update as App exposing (..)
+import Colors.Home.Update exposing (Action(SetColorSeed))
 import Colors.App.View exposing (..)
 import Colors.Router exposing (router)
 
 
-inputs : List (Signal Action)
+inputs : List (Signal App.Action)
 inputs =
-  [ taggedRouterSignal ]
+  [ taggedRouterSignal, setRandomColorSignal ]
 
 
 app =
@@ -22,11 +24,17 @@ main =
   app.html
 
 
-taggedRouterSignal : Signal Action
+taggedRouterSignal : Signal App.Action
 taggedRouterSignal =
   Signal.map ApplyRoute router.signal
 
 
+setRandomColorSignal : Signal App.Action
+setRandomColorSignal =
+  Signal.map (UpdateHome << SetColorSeed << Random.initialSeed) setRandomColorSeed
+
+
+port setRandomColorSeed : Signal Int
 port tasks : Signal (Task.Task Never ())
 port tasks =
   app.tasks

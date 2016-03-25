@@ -1,18 +1,46 @@
 module Colors.Home.View (view) where
 
 import Html exposing (..)
-import Html.Attributes exposing (type', value, pattern, placeholder, class)
-import Html.Events exposing (on, targetValue)
+import Html.Attributes exposing (type', href, value, pattern, placeholder, class)
+import Html.Events exposing (onClick, on, targetValue)
 import String exposing (trim)
+import Regex exposing (regex, replace, HowMany(..))
 import Colors.Util.CustomEvent exposing (onSubmit)
 import Colors.Home.Model exposing (Model)
 import Colors.Home.Update exposing (Action, Action(..))
-import Regex exposing (regex, replace, HowMany(..))
+import Colors.Color.View
 import TinyColor
 
 
 view : Signal.Address Action -> Model -> Html
 view address model =
+  section
+    []
+    [ colorSelectorForm address model
+    , randomColors address model
+    ]
+
+
+randomColors : Signal.Address Action -> Model -> Html
+randomColors address model =
+  case model.randomColorSeed of
+    Nothing ->
+      div [] []
+
+    Just seed ->
+      let
+        ( colors, seed' ) =
+          TinyColor.randomList model.randomListSize seed
+      in
+        div
+          []
+          [ Colors.Color.View.renderColors "Random Colors" colors
+          , button [ onClick address (SetColorSeed seed') ] [ text "Generate another batch" ]
+          ]
+
+
+colorSelectorForm : Signal.Address Action -> Model -> Html
+colorSelectorForm address model =
   form
     [ class "color-search", onSubmit address SubmitForm ]
     [ input

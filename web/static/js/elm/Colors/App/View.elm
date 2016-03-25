@@ -4,9 +4,9 @@ import Html exposing (..)
 import Html.Attributes exposing (class, href)
 import Colors.App.Model exposing (Model)
 import Colors.App.Update exposing (Action, Action(..))
-import Colors.Router exposing (Route(..), rootPath)
-import Colors.Color.View
+import Colors.Router exposing (Route(..), linkTo, rootPath)
 import Colors.Home.View
+import Colors.Color.View
 import Colors.Error.View
 
 
@@ -37,7 +37,7 @@ siteHeader : Html
 siteHeader =
   header
     [ class "page-header" ]
-    [ h1 [] [ a [ href rootPath ] [ text "Colors" ] ] ]
+    [ h1 [] [ linkTo rootPath [] [ text "Colors" ] ] ]
 
 
 siteFooter : Html
