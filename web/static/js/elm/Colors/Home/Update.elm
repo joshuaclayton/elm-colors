@@ -2,7 +2,6 @@ module Colors.Home.Update (Action, Action(..), update) where
 
 import Effects exposing (..)
 import Hop.Navigate exposing (navigateTo)
-import Random exposing (Seed)
 import Colors.Router exposing (colorPath)
 import Colors.Home.Model exposing (..)
 
@@ -10,7 +9,6 @@ import Colors.Home.Model exposing (..)
 type Action
   = NoOp ()
   | SetSearchColor String
-  | SetColorSeed Seed
   | SubmitForm
 
 
@@ -19,11 +17,6 @@ update action model =
   case action of
     NoOp () ->
       ( model, Effects.none )
-
-    SetColorSeed seed ->
-      ( { model | randomColorSeed = Just seed }
-      , Effects.none
-      )
 
     SetSearchColor "" ->
       ( { model | searchColor = Nothing }

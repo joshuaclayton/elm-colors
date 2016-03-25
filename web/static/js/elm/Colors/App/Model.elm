@@ -4,6 +4,7 @@ import Effects exposing (Effects)
 import Hop.Types exposing (Location, newLocation)
 import Colors.Router exposing (Route, Route(..))
 import Colors.Home.Model
+import Colors.RandomColor.Model
 
 
 type alias Model =
@@ -11,6 +12,7 @@ type alias Model =
   , route : Route
   , navigating : Bool
   , home : Colors.Home.Model.Model
+  , randomColor : Colors.RandomColor.Model.Model
   }
 
 
@@ -20,4 +22,5 @@ initialModel =
   , route = HomeRoute
   , navigating = False
   , home = Colors.Home.Model.initialModel
+  , randomColor = Colors.RandomColor.Model.initialModel
   }

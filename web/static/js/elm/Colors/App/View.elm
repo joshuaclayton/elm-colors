@@ -7,6 +7,7 @@ import Colors.App.Update exposing (Action, Action(..))
 import Colors.Router exposing (Route(..), linkTo, rootPath)
 import Colors.Home.View
 import Colors.Color.View
+import Colors.RandomColor.View
 import Colors.Error.View
 import TinyColor
 
@@ -25,7 +26,11 @@ content : Signal.Address Action -> Model -> Html
 content address model =
   case model.route of
     HomeRoute ->
-      Colors.Home.View.view (Signal.forwardTo address UpdateHome) model.home
+      section
+        []
+        [ Colors.Home.View.view (Signal.forwardTo address UpdateHome) model.home
+        , Colors.RandomColor.View.view (Signal.forwardTo address UpdateRandomColor) model.randomColor
+        ]
 
     ViewColorRoute color ->
       Colors.Color.View.view address <| TinyColor.fromString color

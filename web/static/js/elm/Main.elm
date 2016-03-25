@@ -6,7 +6,7 @@ import Effects exposing (Effects, Never)
 import Random
 import Colors.App.Model exposing (..)
 import Colors.App.Update as App exposing (..)
-import Colors.Home.Update exposing (Action(SetColorSeed))
+import Colors.RandomColor.Update exposing (Action(SetColorSeed))
 import Colors.App.View exposing (..)
 import Colors.Router exposing (router)
 
@@ -31,7 +31,7 @@ taggedRouterSignal =
 
 setRandomColorSignal : Signal App.Action
 setRandomColorSignal =
-  Signal.map (UpdateHome << SetColorSeed << Random.initialSeed) setRandomColorSeed
+  Signal.map (UpdateRandomColor << SetColorSeed << Random.initialSeed) setRandomColorSeed
 
 
 port setRandomColorSeed : Signal Int

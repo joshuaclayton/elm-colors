@@ -1,4 +1,4 @@
-module Colors.App.Update (Action, Action(ApplyRoute, NavigateTo, UpdateHome), update, init) where
+module Colors.App.Update (Action, Action(ApplyRoute, NavigateTo, UpdateHome, UpdateRandomColor), update, init) where
 
 import Effects exposing (Effects)
 import Task
@@ -8,6 +8,7 @@ import Hop.Navigate exposing (navigateTo)
 import Colors.Router exposing (Route)
 import Colors.App.Model exposing (Model, initialModel)
 import Colors.Home.Update
+import Colors.RandomColor.Update
 
 
 type Action
@@ -16,6 +17,7 @@ type Action
   | ApplyRoute ( Route, Location )
   | NavigateTo String
   | UpdateHome Colors.Home.Update.Action
+  | UpdateRandomColor Colors.RandomColor.Update.Action
 
 
 update : Action -> Model -> ( Model, Effects Action )
@@ -38,6 +40,15 @@ update action model =
       in
         ( { model | home = model' }
         , Effects.map UpdateHome effects
+        )
+
+    UpdateRandomColor action' ->
+      let
+        ( model', effects ) =
+          Colors.RandomColor.Update.update action' model.randomColor
+      in
+        ( { model | randomColor = model' }
+        , Effects.map UpdateRandomColor effects
         )
 
     NoOp () ->

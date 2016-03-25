@@ -16,27 +16,7 @@ view : Signal.Address Action -> Model -> Html
 view address model =
   section
     []
-    [ colorSelectorForm address model
-    , randomColors address model
-    ]
-
-
-randomColors : Signal.Address Action -> Model -> Html
-randomColors address model =
-  case model.randomColorSeed of
-    Nothing ->
-      div [] []
-
-    Just seed ->
-      let
-        ( colors, seed' ) =
-          TinyColor.randomList model.randomListSize seed
-      in
-        div
-          []
-          [ Colors.Color.View.renderColors "Random Colors" colors
-          , button [ onClick address (SetColorSeed seed') ] [ text "Generate another batch" ]
-          ]
+    [ colorSelectorForm address model ]
 
 
 colorSelectorForm : Signal.Address Action -> Model -> Html
