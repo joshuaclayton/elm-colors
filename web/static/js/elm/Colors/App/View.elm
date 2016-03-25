@@ -8,6 +8,7 @@ import Colors.Router exposing (Route(..), linkTo, rootPath)
 import Colors.Home.View
 import Colors.Color.View
 import Colors.Error.View
+import TinyColor
 
 
 view : Signal.Address Action -> Model -> Html
@@ -27,7 +28,7 @@ content address model =
       Colors.Home.View.view (Signal.forwardTo address UpdateHome) model.home
 
     ViewColorRoute color ->
-      Colors.Color.View.view address color
+      Colors.Color.View.view address <| TinyColor.fromString color
 
     NotFoundRoute ->
       Colors.Error.View.view "Looks like you're lost" "Everything will be okay."

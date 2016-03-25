@@ -8,18 +8,15 @@ import Colors.App.Update exposing (Action, Action(NavigateTo))
 import Colors.Router exposing (linkTo, colorPath)
 
 
-view : Signal.Address Action -> String -> Html
+view : Signal.Address Action -> TinyColor.TinyColor -> Html
 view address color =
   let
-    base =
-      TinyColor.fromString color
-
     renderColorSection =
-      renderColorSectionList base
+      renderColorSectionList color
   in
     section
       [ class "welcome" ]
-      [ section [ class "hero" ] [ renderColor base ]
+      [ section [ class "hero" ] [ renderColor color ]
       , renderColorSection "Triad" TinyColor.triad
       , renderColorSection "Tetrad" TinyColor.tetrad
       , renderColorSection "Analogous" TinyColor.analogous
