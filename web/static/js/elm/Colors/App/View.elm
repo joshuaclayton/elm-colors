@@ -38,6 +38,9 @@ content address model =
     NotFoundRoute ->
       Colors.Error.View.view "Looks like you're lost" "Everything will be okay."
 
+    LoadingRoute ->
+      div [] []
+
 
 siteHeader : Html
 siteHeader =

@@ -12,6 +12,7 @@ type Route
   = HomeRoute
   | ViewColorRoute String
   | NotFoundRoute
+  | LoadingRoute
 
 
 matchers : List (PathMatcher Route)

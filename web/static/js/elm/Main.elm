@@ -64,5 +64,8 @@ port title =
 
         NotFoundRoute ->
           "Colors - Page Not Found"
+
+        LoadingRoute ->
+          "Colors - Loading..."
   in
     Signal.map titleForModel app.model

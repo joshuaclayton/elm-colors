@@ -19,7 +19,7 @@ type alias Model =
 initialModel : Model
 initialModel =
   { location = newLocation
-  , route = HomeRoute
+  , route = LoadingRoute
   , navigating = False
   , home = Colors.Home.Model.initialModel
   , randomColor = Colors.RandomColor.Model.initialModel
