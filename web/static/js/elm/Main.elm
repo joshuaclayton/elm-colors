@@ -8,7 +8,8 @@ import Colors.App.Model exposing (..)
 import Colors.App.Update as App exposing (..)
 import Colors.RandomColor.Update exposing (Action(SetColorSeed))
 import Colors.App.View exposing (..)
-import Colors.Router exposing (router)
+import Colors.Router exposing (Route(..), router)
+import TinyColor
 
 
 inputs : List (Signal App.Action)
@@ -48,3 +49,20 @@ port routeRunTask =
 port broadcastRouteChange : Signal Bool
 port broadcastRouteChange =
   (Signal.map .navigating app.model) |> Signal.dropRepeats
+
+
+port title : Signal String
+port title =
+  let
+    titleForModel model =
+      case model.route of
+        HomeRoute ->
+          "Colors"
+
+        ViewColorRoute color ->
+          "Colors - " ++ ((TinyColor.fromString >> TinyColor.toHexString) color)
+
+        NotFoundRoute ->
+          "Colors - Page Not Found"
+  in
+    Signal.map titleForModel app.model
