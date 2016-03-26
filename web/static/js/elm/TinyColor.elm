@@ -123,6 +123,70 @@ monochromatic =
   Native.TinyColor.monochromatic
 
 
+allReds : TinyColor -> List TinyColor
+allReds color =
+  List.map (updateRed color) <| listWithStep 0 255 1
+
+
+allGreens : TinyColor -> List TinyColor
+allGreens color =
+  List.map (updateGreen color) <| listWithStep 0 255 1
+
+
+allBlues : TinyColor -> List TinyColor
+allBlues color =
+  List.map (updateBlue color) <| listWithStep 0 255 1
+
+
+allBrightnesses : TinyColor -> List TinyColor
+allBrightnesses color =
+  List.map (updateBrightness color) <| listWithStep 0 100 1
+
+
+updateRed : TinyColor -> Int -> TinyColor
+updateRed =
+  Native.TinyColor.updateRed
+
+
+updateGreen : TinyColor -> Int -> TinyColor
+updateGreen =
+  Native.TinyColor.updateGreen
+
+
+updateBlue : TinyColor -> Int -> TinyColor
+updateBlue =
+  Native.TinyColor.updateBlue
+
+
+updateBrightness : TinyColor -> Int -> TinyColor
+updateBrightness =
+  Native.TinyColor.updateBrightness
+
+
+listWithStep : Int -> Int -> Int -> List Int
+listWithStep start end step =
+  let
+    listWithStep' xs c m s =
+      if c + s > m then
+        xs
+      else
+        listWithStep' (xs ++ [ c + s ]) (c + s) m s
+  in
+    listWithStep' [ start ] start end step
+
+
+wheel : Float -> TinyColor -> List TinyColor
+wheel numberOfColors color =
+  let
+    incrementalDegrees =
+      360 / numberOfColors
+
+    degrees =
+      listWithStep 0 360 (round incrementalDegrees)
+  in
+    List.map (flip spin <| color) degrees
+
+
 toHexString : TinyColor -> String
 toHexString =
   Native.TinyColor.toHexString

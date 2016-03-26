@@ -54,6 +54,30 @@ Elm.Native.TinyColor.make = function(localRuntime) {
     return clone(color).spin(degrees);
   }
 
+  function updateRgb(color, attr, value) {
+    var newRGB = clone(color).toRgb();
+    newRGB[attr] = value;
+    return tinycolor(newRGB);
+  }
+
+  function updateRed(color, value) {
+    return updateRgb(clone(color), "r", value);
+  }
+
+  function updateGreen(color, value) {
+    return updateRgb(clone(color), "g", value);
+  }
+
+  function updateBlue(color, value) {
+    return updateRgb(clone(color), "b", value);
+  }
+
+  function updateBrightness(color, value) {
+    var newHSL = clone(color).toHsl();
+    newHSL.l = value + 0.000000001;
+    return tinycolor(newHSL);
+  }
+
   function toHexString(c) {
     return c.toHexString();
   }
@@ -106,6 +130,10 @@ Elm.Native.TinyColor.make = function(localRuntime) {
     saturate: F2(saturate),
     desaturate: F2(desaturate),
     spin: F2(spin),
+    updateRed: F2(updateRed),
+    updateGreen: F2(updateGreen),
+    updateBlue: F2(updateBlue),
+    updateBrightness: F2(updateBrightness),
     greyscale: greyscale,
 
     toHexString: toHexString,

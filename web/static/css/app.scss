@@ -11,6 +11,7 @@ body {
 }
 
 .hero {
+  margin-bottom: 2em;
   width: 100%;
 
   a.color-swatch {
@@ -88,5 +89,15 @@ h1 a {
     .color-swatch {
       flex: 1 100%;
     }
+  }
+}
+
+.no-header {
+  h3 { display: none; }
+}
+
+.no-hex {
+  .color-swatch span {
+    display: none;
   }
 }

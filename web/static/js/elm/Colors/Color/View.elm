@@ -17,6 +17,11 @@ view address color =
     section
       [ class "welcome" ]
       [ section [ class "hero" ] [ renderColor color ]
+      , section [ class "no-hex no-header" ] [ renderColorSection "Reds" (TinyColor.allReds) ]
+      , section [ class "no-hex no-header" ] [ renderColorSection "Greens" (TinyColor.allGreens) ]
+      , section [ class "no-hex no-header" ] [ renderColorSection "Blues" (TinyColor.allBlues) ]
+      , section [ class "no-hex no-header" ] [ renderColorSection "Brightness" (TinyColor.allBrightnesses) ]
+      , section [ class "no-hex" ] [ renderColorSection "Wheel" (TinyColor.wheel 15) ]
       , renderColorSection "Triad" TinyColor.triad
       , renderColorSection "Tetrad" TinyColor.tetrad
       , renderColorSection "Analogous" TinyColor.analogous
