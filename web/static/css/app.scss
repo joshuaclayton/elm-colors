@@ -108,14 +108,24 @@ h1 a {
     text-transform: uppercase;
   }
 
-  h4 {
-    padding: 0 1em;
+  .color-row {
+    @include row();
+    margin-bottom: .25em;
+
+    h4 {
+      line-height: 2em;
+      padding: 0;
+      margin: 0;
+    }
+
+    h4 { @include span-columns(1 of 24); }
+    .color-list-wrapper { @include span-columns(23 of 24); @include omega(); }
+
   }
 
   .color-list {
     display: flex;
     flex-flow: row-wrap;
-    margin-bottom: .125em;
 
     .color-swatch {
       flex: 1 100%;

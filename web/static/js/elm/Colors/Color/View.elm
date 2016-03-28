@@ -46,10 +46,28 @@ renderRGBColorSpectrum spectrum =
     section
       [ class "color-container" ]
       [ header'
-      , section [ class "color-list" ] <| (header'' "R") :: List.map (renderColor [ spectrum.base ]) spectrum.reds
-      , section [ class "color-list" ] <| (header'' "G") :: List.map (renderColor [ spectrum.base ]) spectrum.greens
-      , section [ class "color-list" ] <| (header'' "B") :: List.map (renderColor [ spectrum.base ]) spectrum.blues
-      , section [ class "color-list" ] <| (header'' "D") :: List.map (renderColor [ spectrum.base ]) spectrum.brightness
+      , colorRowWithHeader "R" spectrum .reds
+      , colorRowWithHeader "G" spectrum .greens
+      , colorRowWithHeader "B" spectrum .blues
+      , colorRowWithHeader "D" spectrum .brightness
+      ]
+
+
+colorRowWithHeader : String -> TinyColor.RGBSpectrum -> (TinyColor.RGBSpectrum -> List TinyColor) -> Html
+colorRowWithHeader header spectrum fn =
+  let
+    colors =
+      fn spectrum
+
+    renderedColors =
+      (List.map (renderColor [ spectrum.base ]) colors)
+  in
+    section
+      [ class "color-row" ]
+      [ h4 [] [ text header ]
+      , section
+          [ class "color-list-wrapper" ]
+          [ section [ class "color-list" ] renderedColors ]
       ]
 
 
