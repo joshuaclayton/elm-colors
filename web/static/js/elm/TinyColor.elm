@@ -1,11 +1,21 @@
-module TinyColor (..) where
+module TinyColor (TinyColor, RGBSpectrum, random, randomList, normalizeHex, normalizeHexString, fromString, isLightW3C, equals, darken, lighten, brighten, saturate, desaturate, spin, greyscale, complement, splitComplement, triad, tetrad, analogous, monochromatic, wheel, rgbSpectrum, toHexString, toHex) where
 
 import Native.TinyColor
 import Random
+import Dict
 
 
 type TinyColor
   = TinyColor
+
+
+type alias RGBSpectrum =
+  { base : TinyColor
+  , reds : List TinyColor
+  , greens : List TinyColor
+  , blues : List TinyColor
+  , brightness : List TinyColor
+  }
 
 
 random : Random.Seed -> ( TinyColor, Random.Seed )
@@ -58,6 +68,11 @@ isLightW3C =
   Native.TinyColor.isLightW3C
 
 
+equals : TinyColor -> TinyColor -> Bool
+equals =
+  Native.TinyColor.equals
+
+
 darken : Int -> TinyColor -> TinyColor
 darken =
   Native.TinyColor.darken
@@ -83,7 +98,7 @@ desaturate =
   Native.TinyColor.desaturate
 
 
-spin : Int -> TinyColor -> TinyColor
+spin : Float -> TinyColor -> TinyColor
 spin =
   Native.TinyColor.spin
 
@@ -123,47 +138,57 @@ monochromatic =
   Native.TinyColor.monochromatic
 
 
+rgbSpectrum : TinyColor -> RGBSpectrum
+rgbSpectrum color =
+  { base = color
+  , reds = allReds color
+  , greens = allGreens color
+  , blues = allBlues color
+  , brightness = allBrightnesses color
+  }
+
+
 allReds : TinyColor -> List TinyColor
 allReds color =
-  List.map (updateRed color) <| listWithStep 0 255 1
+  uniqBy toHex <| List.map (updateRed color) <| listWithStep 0 255 1
 
 
 allGreens : TinyColor -> List TinyColor
 allGreens color =
-  List.map (updateGreen color) <| listWithStep 0 255 1
+  uniqBy toHex <| List.map (updateGreen color) <| listWithStep 0 255 1
 
 
 allBlues : TinyColor -> List TinyColor
 allBlues color =
-  List.map (updateBlue color) <| listWithStep 0 255 1
+  uniqBy toHex <| List.map (updateBlue color) <| listWithStep 0 255 1
 
 
 allBrightnesses : TinyColor -> List TinyColor
 allBrightnesses color =
-  List.map (updateBrightness color) <| listWithStep 0 100 1
+  uniqBy toHex <| List.map (updateBrightness color) <| listWithStep 0 100 5.0e-2
 
 
-updateRed : TinyColor -> Int -> TinyColor
+updateRed : TinyColor -> Float -> TinyColor
 updateRed =
   Native.TinyColor.updateRed
 
 
-updateGreen : TinyColor -> Int -> TinyColor
+updateGreen : TinyColor -> Float -> TinyColor
 updateGreen =
   Native.TinyColor.updateGreen
 
 
-updateBlue : TinyColor -> Int -> TinyColor
+updateBlue : TinyColor -> Float -> TinyColor
 updateBlue =
   Native.TinyColor.updateBlue
 
 
-updateBrightness : TinyColor -> Int -> TinyColor
+updateBrightness : TinyColor -> Float -> TinyColor
 updateBrightness =
   Native.TinyColor.updateBrightness
 
 
-listWithStep : Int -> Int -> Int -> List Int
+listWithStep : Float -> Float -> Float -> List Float
 listWithStep start end step =
   let
     listWithStep' xs c m s =
@@ -182,7 +207,7 @@ wheel numberOfColors color =
       360 / numberOfColors
 
     degrees =
-      listWithStep 0 360 (round incrementalDegrees)
+      listWithStep 0 360 incrementalDegrees
   in
     List.map (flip spin <| color) degrees
 
@@ -195,3 +220,8 @@ toHexString =
 toHex : TinyColor -> String
 toHex =
   Native.TinyColor.toHex
+
+
+uniqBy : (a -> comparable) -> List a -> List a
+uniqBy fn xs =
+  (Dict.values << Dict.fromList) <| List.map (\x -> ( fn x, x )) xs

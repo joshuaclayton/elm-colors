@@ -74,7 +74,7 @@ Elm.Native.TinyColor.make = function(localRuntime) {
 
   function updateBrightness(color, value) {
     var newHSL = clone(color).toHsl();
-    newHSL.l = value + 0.000000001;
+    newHSL.l = value/100;
     return tinycolor(newHSL);
   }
 
@@ -139,6 +139,7 @@ Elm.Native.TinyColor.make = function(localRuntime) {
     toHexString: toHexString,
     toHex: toHex,
     isLightW3C: isLightW3C,
+    equals: F2(tinycolor.equals),
 
     complement: complement,
     triad: triad,

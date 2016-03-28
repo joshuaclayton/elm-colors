@@ -16,11 +16,8 @@ view address color =
   in
     section
       [ class "welcome" ]
-      [ section [ class "hero" ] [ renderColor color ]
-      , section [ class "no-hex no-header" ] [ renderColorSection "Reds" (TinyColor.allReds) ]
-      , section [ class "no-hex no-header" ] [ renderColorSection "Greens" (TinyColor.allGreens) ]
-      , section [ class "no-hex no-header" ] [ renderColorSection "Blues" (TinyColor.allBlues) ]
-      , section [ class "no-hex no-header" ] [ renderColorSection "Brightness" (TinyColor.allBrightnesses) ]
+      [ section [ class "hero" ] [ renderColor [] color ]
+      , section [ class "no-hex" ] [ renderRGBColorSpectrum <| TinyColor.rgbSpectrum color ]
       , section [ class "no-hex" ] [ renderColorSection "Wheel" (TinyColor.wheel 15) ]
       , renderColorSection "Triad" TinyColor.triad
       , renderColorSection "Tetrad" TinyColor.tetrad
@@ -34,6 +31,25 @@ view address color =
       , renderColorSection "Darken" (TinyColor.darken 10 >> toList)
       , renderColorSection "Lighten" (TinyColor.lighten 10 >> toList)
       , renderColorSection "Brighten" (TinyColor.brighten 10 >> toList)
+      ]
+
+
+renderRGBColorSpectrum : TinyColor.RGBSpectrum -> Html
+renderRGBColorSpectrum spectrum =
+  let
+    header' =
+      h3 [] [ text "RGB Color Spectrum" ]
+
+    header'' text' =
+      h4 [] [ text text' ]
+  in
+    section
+      [ class "color-container" ]
+      [ header'
+      , section [ class "color-list" ] <| (header'' "R") :: List.map (renderColor [ spectrum.base ]) spectrum.reds
+      , section [ class "color-list" ] <| (header'' "G") :: List.map (renderColor [ spectrum.base ]) spectrum.greens
+      , section [ class "color-list" ] <| (header'' "B") :: List.map (renderColor [ spectrum.base ]) spectrum.blues
+      , section [ class "color-list" ] <| (header'' "D") :: List.map (renderColor [ spectrum.base ]) spectrum.brightness
       ]
 
 
@@ -51,20 +67,23 @@ renderColors header colors =
     section
       [ class "color-container" ]
       [ header'
-      , section [ class "color-list" ] <| List.map renderColor colors
+      , section [ class "color-list" ] <| List.map (renderColor []) colors
       ]
 
 
-renderColor : TinyColor -> Html
-renderColor color =
+renderColor : List TinyColor -> TinyColor -> Html
+renderColor activeColors color =
   let
     hex =
       color |> TinyColor.toHex
+
+    isActive =
+      List.any (TinyColor.equals color) activeColors
   in
     linkTo
       (colorPath hex)
       [ style [ ( "background", TinyColor.toHexString color ) ]
-      , classList [ ( "color-swatch", True ), ( "light-color", TinyColor.isLightW3C color ) ]
+      , classList [ ( "active", isActive ), ( "color-swatch", True ), ( "light-color", TinyColor.isLightW3C color ) ]
       ]
       [ span [] [ text hex ] ]
 

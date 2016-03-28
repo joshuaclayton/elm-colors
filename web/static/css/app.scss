@@ -53,6 +53,32 @@ a.color-swatch {
     color: #000;
   }
 
+
+  &.active {
+    @mixin active-outline($lightness) {
+      @if $lightness == light {
+        $border-color: rgba(0, 0, 0, 0.3);
+      } @else if $lightness == dark {
+        $border-color: rgba(255, 255, 255, 0.3);
+      }
+
+      $border-base-size: 3px;
+
+      border-left: 1.5*$border-base-size solid $border-color;
+      border-right: 1.5*$border-base-size solid $border-color;
+      border-top: $border-base-size solid $border-color;
+      border-bottom: $border-base-size solid $border-color;
+    }
+
+    @include active-outline(dark);
+
+    &.light-color {
+      @include active-outline(light);
+    }
+
+    padding: 0 10px 0 0;
+  }
+
   span {
     position: relative;
     top: 50%;
@@ -82,9 +108,14 @@ h1 a {
     text-transform: uppercase;
   }
 
+  h4 {
+    padding: 0 1em;
+  }
+
   .color-list {
     display: flex;
     flex-flow: row-wrap;
+    margin-bottom: .125em;
 
     .color-swatch {
       flex: 1 100%;
