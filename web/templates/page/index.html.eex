@@ -9,5 +9,9 @@
         window.scroll(0, 0);
       }
     });
+
+    elm.ports.bodyClass.subscribe(function(classNames) {
+      document.body.className = classNames;
+    });
   });
 </script>

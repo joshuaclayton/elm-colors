@@ -69,3 +69,23 @@ port title =
           "Colors - Loading..."
   in
     Signal.map titleForModel app.model
+
+
+port bodyClass : Signal String
+port bodyClass =
+  let
+    classForRoute route =
+      case route of
+        HomeRoute ->
+          "home"
+
+        ViewColorRoute _ ->
+          "colors-show"
+
+        NotFoundRoute ->
+          "not-found"
+
+        LoadingRoute ->
+          "loading"
+  in
+    Signal.map (classForRoute << .route) app.model

@@ -40,6 +40,10 @@ header.page-header {
     font-size: 1.5em;
   }
 
+  body.home header &, body.loading header & {
+    display: none;
+  }
+
   input[type="text"] {
     padding: .25em;
   }
