@@ -16,7 +16,7 @@ view : Signal.Address Action -> Model -> Html
 view address model =
   main'
     [ class "container" ]
-    [ siteHeader
+    [ siteHeader address model
     , content address model
     , siteFooter
     ]
@@ -27,7 +27,7 @@ content address model =
   case model.route of
     HomeRoute ->
       section
-        []
+        [ class "homepage-hero" ]
         [ Colors.Search.View.view (Signal.forwardTo address UpdateSearch) model.search
         , Colors.RandomColor.View.view (Signal.forwardTo address UpdateRandomColor) model.randomColor
         ]
@@ -42,11 +42,20 @@ content address model =
       div [] []
 
 
-siteHeader : Html
-siteHeader =
-  header
-    [ class "page-header" ]
-    [ h1 [] [ linkTo rootPath [] [ text "Colors" ] ] ]
+siteHeader : Signal.Address Action -> Model -> Html
+siteHeader address model =
+  let
+    additionalHeaderContent =
+      case model.route of
+        HomeRoute ->
+          []
+
+        _ ->
+          [ Colors.Search.View.view (Signal.forwardTo address UpdateSearch) model.search ]
+  in
+    header
+      [ class "page-header" ]
+      ([ h1 [] [ linkTo rootPath [] [ text "Colors" ] ] ] ++ additionalHeaderContent)
 
 
 siteFooter : Html

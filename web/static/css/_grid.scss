@@ -2,8 +2,21 @@
   @include outer-container;
 }
 
+header.page-header {
+  @include row;
 
-.color-search {
+  h1 {
+    @include span-columns(6);
+  }
+
+  .color-search {
+    @include span-columns(6);
+    @include omega;
+  }
+
+}
+
+.homepage-hero .color-search {
   @include row();
 
   input[type="text"] {
