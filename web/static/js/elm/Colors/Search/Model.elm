@@ -1,4 +1,4 @@
-module Colors.Home.Model (..) where
+module Colors.Search.Model (..) where
 
 
 type alias Model =

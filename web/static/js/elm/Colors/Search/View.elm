@@ -1,4 +1,4 @@
-module Colors.Home.View (view) where
+module Colors.Search.View (view) where
 
 import Html exposing (..)
 import Html.Attributes exposing (type', href, value, pattern, placeholder, class)
@@ -6,8 +6,8 @@ import Html.Events exposing (onClick, on, targetValue)
 import String exposing (trim)
 import Regex exposing (regex, replace, HowMany(..))
 import Colors.Util.CustomEvent exposing (onSubmit)
-import Colors.Home.Model exposing (Model)
-import Colors.Home.Update exposing (Action, Action(..))
+import Colors.Search.Model exposing (Model)
+import Colors.Search.Update exposing (Action, Action(..))
 import Colors.Color.View
 import TinyColor
 

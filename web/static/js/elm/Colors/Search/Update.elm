@@ -1,9 +1,9 @@
-module Colors.Home.Update (Action, Action(..), update) where
+module Colors.Search.Update (Action, Action(..), update) where
 
 import Effects exposing (..)
 import Hop.Navigate exposing (navigateTo)
 import Colors.Router exposing (colorPath)
-import Colors.Home.Model exposing (..)
+import Colors.Search.Model exposing (..)
 
 
 type Action

@@ -3,7 +3,7 @@ module Colors.App.Model (..) where
 import Effects exposing (Effects)
 import Hop.Types exposing (Location, newLocation)
 import Colors.Router exposing (Route, Route(..))
-import Colors.Home.Model
+import Colors.Search.Model
 import Colors.RandomColor.Model
 
 
@@ -11,7 +11,7 @@ type alias Model =
   { location : Location
   , route : Route
   , navigating : Bool
-  , home : Colors.Home.Model.Model
+  , search : Colors.Search.Model.Model
   , randomColor : Colors.RandomColor.Model.Model
   }
 
@@ -21,6 +21,6 @@ initialModel =
   { location = newLocation
   , route = LoadingRoute
   , navigating = False
-  , home = Colors.Home.Model.initialModel
+  , search = Colors.Search.Model.initialModel
   , randomColor = Colors.RandomColor.Model.initialModel
   }

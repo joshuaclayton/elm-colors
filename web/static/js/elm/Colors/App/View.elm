@@ -5,7 +5,7 @@ import Html.Attributes exposing (class, href)
 import Colors.App.Model exposing (Model)
 import Colors.App.Update exposing (Action, Action(..))
 import Colors.Router exposing (Route(..), linkTo, rootPath)
-import Colors.Home.View
+import Colors.Search.View
 import Colors.Color.View
 import Colors.RandomColor.View
 import Colors.Error.View
@@ -28,7 +28,7 @@ content address model =
     HomeRoute ->
       section
         []
-        [ Colors.Home.View.view (Signal.forwardTo address UpdateHome) model.home
+        [ Colors.Search.View.view (Signal.forwardTo address UpdateSearch) model.search
         , Colors.RandomColor.View.view (Signal.forwardTo address UpdateRandomColor) model.randomColor
         ]
 
