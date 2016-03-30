@@ -1,4 +1,4 @@
-module TinyColor (TinyColor, RGBSpectrum, random, randomList, normalizeHex, normalizeHexString, fromString, isLightW3C, equals, darken, lighten, brighten, saturate, desaturate, spin, greyscale, complement, splitComplement, triad, tetrad, analogous, monochromatic, wheel, rgbSpectrum, toHexString, toHex) where
+module TinyColor (TinyColor, ColorSpectrum(..), random, randomList, normalizeHex, normalizeHexString, fromString, isLightW3C, equals, darken, lighten, brighten, saturate, desaturate, spin, greyscale, complement, splitComplement, triad, tetrad, analogous, monochromatic, wheel, rgbSpectrum, hsvSpectrum, toHexString, toHex) where
 
 import Native.TinyColor
 import Random
@@ -9,13 +9,9 @@ type TinyColor
   = TinyColor
 
 
-type alias RGBSpectrum =
-  { base : TinyColor
-  , reds : List TinyColor
-  , greens : List TinyColor
-  , blues : List TinyColor
-  , brightness : List TinyColor
-  }
+type ColorSpectrum
+  = RGBSpectrum { base : TinyColor, reds : List TinyColor, greens : List TinyColor, blues : List TinyColor, brightness : List TinyColor }
+  | HSVSpectrum { base : TinyColor, hues : List TinyColor, saturations : List TinyColor, brightness : List TinyColor }
 
 
 random : Random.Seed -> ( TinyColor, Random.Seed )
@@ -138,14 +134,25 @@ monochromatic =
   Native.TinyColor.monochromatic
 
 
-rgbSpectrum : TinyColor -> RGBSpectrum
+rgbSpectrum : TinyColor -> ColorSpectrum
 rgbSpectrum color =
-  { base = color
-  , reds = allReds color
-  , greens = allGreens color
-  , blues = allBlues color
-  , brightness = allBrightnesses color
-  }
+  RGBSpectrum
+    { base = color
+    , reds = allReds color
+    , greens = allGreens color
+    , blues = allBlues color
+    , brightness = allBrightnesses color
+    }
+
+
+hsvSpectrum : TinyColor -> ColorSpectrum
+hsvSpectrum color =
+  HSVSpectrum
+    { base = color
+    , hues = allHues color
+    , saturations = allSaturations color
+    , brightness = allBrightnesses color
+    }
 
 
 allReds : TinyColor -> List TinyColor
@@ -168,6 +175,16 @@ allBrightnesses color =
   uniqBy toHex <| List.map (updateBrightness color) <| listWithStep 0 100 5.0e-2
 
 
+allHues : TinyColor -> List TinyColor
+allHues color =
+  (List.sortBy getHue << uniqBy toHex) <| List.map (updateHue color) <| listWithStep 0 360 5.0e-2
+
+
+allSaturations : TinyColor -> List TinyColor
+allSaturations color =
+  uniqBy toHex <| List.map (updateSaturation color) <| listWithStep 0 100 0.2
+
+
 updateRed : TinyColor -> Float -> TinyColor
 updateRed =
   Native.TinyColor.updateRed
@@ -186,6 +203,21 @@ updateBlue =
 updateBrightness : TinyColor -> Float -> TinyColor
 updateBrightness =
   Native.TinyColor.updateBrightness
+
+
+updateHue : TinyColor -> Float -> TinyColor
+updateHue =
+  Native.TinyColor.updateHue
+
+
+updateSaturation : TinyColor -> Float -> TinyColor
+updateSaturation =
+  Native.TinyColor.updateSaturation
+
+
+getHue : TinyColor -> Float
+getHue =
+  Native.TinyColor.getHue
 
 
 listWithStep : Float -> Float -> Float -> List Float

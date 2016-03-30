@@ -60,6 +60,12 @@ Elm.Native.TinyColor.make = function(localRuntime) {
     return tinycolor(newRGB);
   }
 
+  function updateHsv(color, attr, value) {
+    var newHSV = clone(color).toHsv();
+    newHSV[attr] = value;
+    return tinycolor(newHSV);
+  }
+
   function updateRed(color, value) {
     return updateRgb(clone(color), "r", value);
   }
@@ -72,10 +78,22 @@ Elm.Native.TinyColor.make = function(localRuntime) {
     return updateRgb(clone(color), "b", value);
   }
 
+  function updateHue(color, value) {
+    return updateHsv(clone(color), "h", value);
+  }
+
+  function updateSaturation(color, value) {
+    return updateHsv(clone(color), "s", value);
+  }
+
   function updateBrightness(color, value) {
     var newHSL = clone(color).toHsl();
     newHSL.l = value/100;
     return tinycolor(newHSL);
+  }
+
+  function getHue(color) {
+    return tinycolor(color).toHsv().h;
   }
 
   function toHexString(c) {
@@ -134,6 +152,9 @@ Elm.Native.TinyColor.make = function(localRuntime) {
     updateGreen: F2(updateGreen),
     updateBlue: F2(updateBlue),
     updateBrightness: F2(updateBrightness),
+    updateHue: F2(updateHue),
+    updateSaturation: F2(updateSaturation),
+    getHue: getHue,
     greyscale: greyscale,
 
     toHexString: toHexString,

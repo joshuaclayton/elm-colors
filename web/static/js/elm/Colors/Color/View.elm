@@ -17,7 +17,8 @@ view address color =
     section
       [ class "welcome" ]
       [ section [ class "hero" ] [ renderColor [] color ]
-      , section [ class "no-hex" ] [ renderRGBColorSpectrum <| TinyColor.rgbSpectrum color ]
+      , section [ class "no-hex" ] [ renderColorSpectrum <| TinyColor.rgbSpectrum color ]
+      , section [ class "no-hex" ] [ renderColorSpectrum <| TinyColor.hsvSpectrum color ]
       , section [ class "no-hex" ] [ renderColorSection "Wheel" (TinyColor.wheel 15) ]
       , renderColorSection "Triad" TinyColor.triad
       , renderColorSection "Tetrad" TinyColor.tetrad
@@ -34,26 +35,41 @@ view address color =
       ]
 
 
-renderRGBColorSpectrum : TinyColor.RGBSpectrum -> Html
-renderRGBColorSpectrum spectrum =
+renderColorSpectrum : TinyColor.ColorSpectrum -> Html
+renderColorSpectrum spectrum =
   let
     header' =
-      h3 [] [ text "RGB Color Spectrum" ]
+      case spectrum of
+        RGBSpectrum _ ->
+          h3 [] [ text "RGB Color Spectrum" ]
+
+        HSVSpectrum _ ->
+          h3 [] [ text "HSV Color Spectrum" ]
 
     header'' text' =
       h4 [] [ text text' ]
+
+    colorRows =
+      case spectrum of
+        RGBSpectrum spectrum' ->
+          [ colorRowWithHeader "R" spectrum' .reds
+          , colorRowWithHeader "G" spectrum' .greens
+          , colorRowWithHeader "B" spectrum' .blues
+          , colorRowWithHeader "D" spectrum' .brightness
+          ]
+
+        HSVSpectrum spectrum' ->
+          [ colorRowWithHeader "H" spectrum' .hues
+          , colorRowWithHeader "S" spectrum' .saturations
+          , colorRowWithHeader "V" spectrum' .brightness
+          ]
   in
     section
       [ class "color-container" ]
-      [ header'
-      , colorRowWithHeader "R" spectrum .reds
-      , colorRowWithHeader "G" spectrum .greens
-      , colorRowWithHeader "B" spectrum .blues
-      , colorRowWithHeader "D" spectrum .brightness
-      ]
+      ([ header' ] ++ colorRows)
 
 
-colorRowWithHeader : String -> TinyColor.RGBSpectrum -> (TinyColor.RGBSpectrum -> List TinyColor) -> Html
+colorRowWithHeader : String -> { a | base : TinyColor } -> ({ a | base : TinyColor } -> List TinyColor) -> Html
 colorRowWithHeader header spectrum fn =
   let
     colors =
