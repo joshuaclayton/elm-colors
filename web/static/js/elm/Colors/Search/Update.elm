@@ -1,8 +1,7 @@
 module Colors.Search.Update (Action, Action(..), update) where
 
 import Effects exposing (..)
-import Hop.Navigate exposing (navigateTo)
-import Colors.Router exposing (colorPath)
+import Colors.Router exposing (colorPath, navigateTo)
 import Colors.Search.Model exposing (..)
 
 

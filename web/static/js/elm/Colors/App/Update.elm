@@ -2,10 +2,8 @@ module Colors.App.Update (Action, Action(ApplyRoute, NavigateTo, UpdateSearch, U
 
 import Effects exposing (Effects)
 import Task
-import Hop
 import Hop.Types exposing (Location)
-import Hop.Navigate exposing (navigateTo)
-import Colors.Router exposing (Route)
+import Colors.Router exposing (Route, navigateTo)
 import Colors.App.Model exposing (Model, initialModel)
 import Colors.Search.Update
 import Colors.RandomColor.Update

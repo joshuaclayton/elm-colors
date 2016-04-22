@@ -8,13 +8,18 @@ import Colors.App.Model exposing (..)
 import Colors.App.Update as App exposing (..)
 import Colors.RandomColor.Update exposing (Action(SetColorSeed))
 import Colors.App.View exposing (..)
-import Colors.Router exposing (Route(..), router)
+import Colors.Router exposing (Route(..), router, routerMailbox)
 import TinyColor
+
+
+navigations : Signal App.Action
+navigations =
+  Signal.map App.NavigateTo routerMailbox.signal
 
 
 inputs : List (Signal App.Action)
 inputs =
-  [ taggedRouterSignal, setRandomColorSignal ]
+  [ taggedRouterSignal, setRandomColorSignal, navigations ]
 
 
 app =
