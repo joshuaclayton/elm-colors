@@ -3,7 +3,7 @@ module Colors.Router (..) where
 import Effects exposing (Effects)
 import Hop
 import Hop.Matchers exposing (match1, match2, str)
-import Hop.Types exposing (Router, PathMatcher, Location)
+import Hop.Types exposing (Config, Router, PathMatcher, Location)
 import Html exposing (Html, Attribute, a)
 import Html.Attributes exposing (href)
 
@@ -15,6 +15,13 @@ type Route
   | LoadingRoute
 
 
+routerConfig : Config Route
+routerConfig =
+  { matchers = matchers
+  , notFound = NotFoundRoute
+  }
+
+
 matchers : List (PathMatcher Route)
 matchers =
   [ match1 HomeRoute "/"
@@ -24,10 +31,7 @@ matchers =
 
 router : Router Route
 router =
-  Hop.new
-    { matchers = matchers
-    , notFound = NotFoundRoute
-    }
+  Hop.new routerConfig
 
 
 linkTo : String -> List Attribute -> List Html -> Html
